@@ -1,11 +1,13 @@
 package br.com.casadocodigo.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,8 +22,8 @@ public class Produto {
 	private String titulo;
 	private String descricao;
 	private Integer paginas;
-	@ElementCollection
-	public List<Preco> precos;
+	@ElementCollection(fetch = FetchType.LAZY)
+	public List<Preco> precos = new ArrayList<>();
 	@DateTimeFormat
 	private Calendar dataLancamento;
 	private String sumarioPath;

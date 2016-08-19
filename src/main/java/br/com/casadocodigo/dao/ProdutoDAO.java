@@ -1,14 +1,17 @@
 package br.com.casadocodigo.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 import br.com.casadocodigo.model.Produto;
+import br.com.casadocodigo.model.TipoPreco;
 
 @Transactional
 @Repository
@@ -31,4 +34,13 @@ public class ProdutoDAO {
 				.setParameter("id", id)
 				.getSingleResult();
 	}
+
+	public BigDecimal somaProdutoPorTipoPreco(TipoPreco tipoPreco){
+		TypedQuery<BigDecimal> query = manager.createQuery("select sum(prc.valor) from Produto p"
+				+ " join p.precos prc where prc.tipo = :tipoPreco", BigDecimal.class);
+		query.setParameter("tipoPreco", tipoPreco);
+		
+		return query.getSingleResult(); 
+	}
+	
 }

@@ -3,6 +3,7 @@ package br.com.casadocodigo.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -47,6 +48,7 @@ public class ProdutoController {
 		return modelAndView;
 	}
 
+	@CacheEvict(value = "produtosHome", allEntries=true)
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView add(MultipartFile sumario, @Valid Produto produto, BindingResult result, RedirectAttributes redirectAttributes) {
 		System.out.println(produto);
@@ -82,5 +84,6 @@ public class ProdutoController {
 		
 		return modelAndView;
 	}
+	
 
 }

@@ -16,19 +16,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 public class JPAConfiguration {
+
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-		factoryBean.setPackagesToScan("br.com.casadocodigo.model");
-		factoryBean.setDataSource(dataSource);
-
-		JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-		factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
-		factoryBean.setJpaProperties(aditionalProperties());
-
-		return factoryBean;
-	}
-
+	@Profile("dev")
 	private Properties aditionalProperties() {
 		Properties props = new Properties();
 		props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
@@ -46,6 +36,20 @@ public class JPAConfiguration {
 		dataSource.setUrl("jdbc:mysql://localhost:3306/casadocodigo");
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		return dataSource;
+	}
+
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+			Properties additionalProperties) {
+		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+		factoryBean.setPackagesToScan("br.com.casadocodigo.model");
+		factoryBean.setDataSource(dataSource);
+
+		JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+		factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
+		factoryBean.setJpaProperties(additionalProperties);
+
+		return factoryBean;
 	}
 
 	@Bean

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -23,32 +24,20 @@ public class Usuario implements UserDetails {
 	private String email;
 	private String nome;
 	private String senha;
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Role> roles = new ArrayList<Role>();
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getNome() {
+		return nome;
 	}
 
 	@Override
@@ -81,7 +70,19 @@ public class Usuario implements UserDetails {
 		return true;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }

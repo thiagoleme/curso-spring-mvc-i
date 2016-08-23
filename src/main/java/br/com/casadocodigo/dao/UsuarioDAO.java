@@ -17,6 +17,10 @@ public class UsuarioDAO implements UserDetailsService {
 	@PersistenceContext
 	private EntityManager manager;
 
+	public void gravar(Usuario usuario) {
+		manager.persist(usuario);
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String email) {
 		List<Usuario> usuarios = manager.createQuery("select u from Usuario u where u.email = :email", Usuario.class)

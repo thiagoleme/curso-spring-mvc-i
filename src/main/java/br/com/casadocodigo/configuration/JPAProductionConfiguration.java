@@ -11,10 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Profile("prod")
-@EnableTransactionManagement
 public class JPAProductionConfiguration {
 
 	@Autowired
